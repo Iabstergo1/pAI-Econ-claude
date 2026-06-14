@@ -216,7 +216,7 @@ through a forcing contract when the agent's outside option is type-dependent.
 - proof sketches
 - counterexamples
 - economic interpretation
-- manuscript skeleton（含学术格式 PDF）
+- manuscript skeleton（含 LaTeX 源文件和学术格式 PDF，pdflatex 编译）
 
 ---
 
@@ -273,7 +273,7 @@ flowchart TD
 | 7 | Proof Sketch | `proof_sketches.md` |
 | 8 | Counterexample Finder | `counterexamples_and_edge_cases.md` |
 | 9 | Economic Interpretation | `economic_interpretation.md` |
-| 10 | Manuscript Skeleton | `manuscript_skeleton.md` + `manuscript_skeleton.pdf` |
+| 10 | Manuscript Skeleton | `manuscript_skeleton.md` + `manuscript_skeleton.tex` + `manuscript_skeleton.pdf` |
 
 ---
 
@@ -415,7 +415,8 @@ Exploration/
     │   ├── counterexamples_and_edge_cases.md
     │   ├── economic_interpretation.md
     │   ├── manuscript_skeleton.md
-    │   └── manuscript_skeleton.pdf   ← 学术排版 PDF（XeLaTeX）
+    │   ├── manuscript_skeleton.tex   ← LaTeX 源文件（pdflatex + Computer Modern）
+    │   └── manuscript_skeleton.pdf   ← 学术排版 PDF（pdflatex + Computer Modern）
     ├── gates/
     │   ├── gate-01-novelty-risk.md
     │   ├── gate-02b-canonical-fit.md
@@ -488,6 +489,7 @@ Stage 8 专门寻找反例和边界情形，包括：
 ```text
 pAI-Econ-claude/
 ├── SKILL.md                              # 流水线编排：阶段路由、Gate 逻辑、HiL 协议
+├── CLAUDE.md                             # 项目级规则（文献验证要求、PDF 格式标准等）
 ├── README.md                             # 中文说明（本文件）
 ├── README_EN.md                          # 英文说明
 ├── THEORETICAL_ECON_MIGRATION_PLAN.md    # 从 pAI/MSc 迁移的设计记录
@@ -553,7 +555,7 @@ pAI-Econ-claude/
 │   └── gate-05-economic-meaning.md
 ├── templates/
 │   ├── state.json
-│   ├── academic-econ.latex               # PDF 学术排版模板（Pandoc + XeLaTeX）
+│   ├── academic-econ.latex               # 旧版 PDF 模板（已弃用，现直接写 .tex）
 │   ├── author_style_guide_econ.md
 │   └── author_style_guide_default.md
 └── Exploration/                          # 所有项目工作区（自动生成，不提交内容）
@@ -586,8 +588,8 @@ pAI-Econ-claude/
 
 ## 已知限制
 
-1. **不执行真实文献检索**  
-   Skill 会生成 literature search plan，但 researcher 需要自行核查最新文献。
+1. **文献验证需要研究者参与**  
+   Stage 2 会通过联网搜索核查拟引用文献的真实性，但 researcher 仍需自行判断文献定位是否准确、最新文献是否已被覆盖。LLM 生成的引用可能存在幻觉（作者、标题、期刊看似真实但细节有误），Stage 2 和 PDF 生成前均设有强制验证节点。
 
 2. **Proof sketch 不是正式证明**  
    标记为 `GAP` 或 `FALSE_RISK` 的部分必须由研究者进一步推导。

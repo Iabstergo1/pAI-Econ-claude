@@ -220,7 +220,7 @@ Full output includes:
 - Proof sketches
 - Counterexamples
 - Economic interpretation
-- Manuscript skeleton (markdown + academic PDF)
+- Manuscript skeleton (markdown + LaTeX source + academic PDF compiled with pdflatex)
 
 ---
 
@@ -277,7 +277,7 @@ flowchart TD
 | 7 | Proof Sketch | `proof_sketches.md` |
 | 8 | Counterexample Finder | `counterexamples_and_edge_cases.md` |
 | 9 | Economic Interpretation | `economic_interpretation.md` |
-| 10 | Manuscript Skeleton | `manuscript_skeleton.md` + `manuscript_skeleton.pdf` |
+| 10 | Manuscript Skeleton | `manuscript_skeleton.md` + `manuscript_skeleton.tex` + `manuscript_skeleton.pdf` |
 
 ---
 
@@ -419,7 +419,8 @@ Exploration/
     │   ├── counterexamples_and_edge_cases.md
     │   ├── economic_interpretation.md
     │   ├── manuscript_skeleton.md
-    │   └── manuscript_skeleton.pdf    ← Academic PDF (XeLaTeX, AER style)
+    │   ├── manuscript_skeleton.tex    ← LaTeX source (pdflatex + Computer Modern)
+    │   └── manuscript_skeleton.pdf    ← Academic PDF (pdflatex + Computer Modern)
     ├── gates/
     │   ├── gate-01-novelty-risk.md
     │   ├── gate-02b-canonical-fit.md
@@ -492,6 +493,7 @@ The goal of this step is not to make the model look better, but to find early wh
 ```text
 pAI-Econ-claude/
 ├── SKILL.md                              # Pipeline orchestration: stage routing, Gate logic, HiL protocol
+├── CLAUDE.md                             # Project-level rules (citation verification, PDF style standards)
 ├── README.md                             # Chinese documentation
 ├── README_EN.md                          # English documentation (this file)
 ├── THEORETICAL_ECON_MIGRATION_PLAN.md    # Design record for migration from pAI/MSc
@@ -557,7 +559,7 @@ pAI-Econ-claude/
 │   └── gate-05-economic-meaning.md
 ├── templates/
 │   ├── state.json
-│   ├── academic-econ.latex               # PDF typesetting template (Pandoc + XeLaTeX, AER style)
+│   ├── academic-econ.latex               # Legacy PDF template (deprecated; pipeline now writes .tex directly)
 │   ├── author_style_guide_econ.md
 │   └── author_style_guide_default.md
 └── Exploration/                          # All project workspaces (auto-generated, contents not committed)
@@ -590,8 +592,8 @@ pAI-Econ-claude/
 
 ## Known Limitations
 
-1. **Does not perform real literature searches.**
-   The Skill generates a literature search plan, but researchers must verify the latest literature themselves.
+1. **Citation verification requires researcher oversight.**
+   Stage 2 now uses web search to verify that proposed citations actually exist, and a mandatory verification gate runs before PDF generation. However, researchers must still judge whether the literature positioning is accurate and whether recent papers are covered. LLM-generated citations can be hallucinated (plausible author, title, and journal but wrong details); the pipeline's verification steps are a safeguard, not a substitute for researcher judgment.
 
 2. **Proof sketches are not formal proofs.**
    Steps marked `GAP` or `FALSE_RISK` must be further derived by the researcher.
