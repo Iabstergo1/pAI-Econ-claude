@@ -4,17 +4,14 @@
   <img alt="Status" src="https://img.shields.io/badge/status-theory--harness-blue">
   <img alt="Claude Code" src="https://img.shields.io/badge/Claude_Code-skill-blueviolet">
   <img alt="Domain" src="https://img.shields.io/badge/domain-theoretical--economics-0A66C2">
-  <img alt="Data" src="https://img.shields.io/badge/data-no--empirical--data-lightgrey">
   <img alt="Human in the Loop" src="https://img.shields.io/badge/human--in--the--loop-required-orange">
-  <img alt="Proofs" src="https://img.shields.io/badge/proofs-sketches--not--proofs-yellow">
   <img alt="Model Library" src="https://img.shields.io/badge/model--library-canonical--models-2E8B57">
-  <img alt="Quality Gates" src="https://img.shields.io/badge/quality--gates-enabled-success">
   <img alt="License" src="https://img.shields.io/badge/license-MIT-lightgrey">
 </p>
 
 <p align="center">
-  <b>一个面向理论经济学研究的 Claude Code Skill</b><br>
-  从经济学直觉出发，辅助研究者完成模型选择、原语设定、命题生成、证明草图、反例检查与论文框架搭建。
+  <b>一个连接经济学实证发现与理论建模的 Claude Code Skill</b><br>
+  pAI-Econ-claude 并不试图替代理论经济学家的原创工作，而是帮助实证研究者把经验现象、机制直觉和实证发现转化为更清晰的理论问题、经典模型参照、可检验命题和可审计的研究框架。
 </p>
 
 <p align="center">
@@ -25,18 +22,19 @@
   <a href="#工作流">工作流</a>
 </p>
 
----
-
-## 项目简介
-
-**pAI-Econ-claude** 是一个用于理论经济学研究的 **human-in-the-loop Claude Code Skill**。  
-它不是让 AI 自动完成一篇理论论文，而是把理论建模过程中最容易混乱、跳步和自我确认的环节结构化，帮助研究者把一个模糊的经济学 intuition 转化为可检查、可反驳、可迭代的理论研究框架。
 
 ---
 
 ## 作者与更新
 
-**作者：** Chen Zhu / 朱晨（China Agricultural University） · Xiaolu Wang / 王晓璐（China Agricultural University） · Weilong Zhang / 章维龙（University of Cambridge）  
+**作者：** 
+
+Chen Zhu / 朱晨（China Agricultural University） 
+
+Xiaolu Wang / 王晓璐（China Agricultural University） 
+
+Weilong Zhang / 章维龙（University of Cambridge）  
+
 **最后更新：** 2026 年 6 月 14 日
 
 ---
@@ -54,6 +52,22 @@ Original pAI/MSc:
 Reference:
 - [pAI/MSc thesis record](https://dspace.mit.edu/handle/1721.1/165377)
 - [PoggioAI_MSc GitHub Repository](https://github.com/PoggioAI/PoggioAI_MSc)
+
+---
+
+## 项目简介
+
+**pAI-Econ-claude** 是一个面向实证经济学家的 **human-in-the-loop Claude Code Skill**，旨在帮助研究者从经验现象、机制直觉和实证发现出发，补齐研究中的理论版图。
+
+它并不试图替代理论经济学家的原创工作，也不声称能够自动发现新的理论前沿。相反，它的定位是作为理论与实证之间的桥梁：帮助实证研究者识别合适的经典模型家族，澄清核心经济机制，明确模型扩展相对于既有理论的新增部分，并将经验问题转化为更规范的理论表述。
+
+很多实证研究并不缺少数据、识别策略或估计结果，真正薄弱的地方往往是理论机制不够清楚：为什么这个现象应该成立？它对应哪个经典模型？新增变量改变了什么？命题是否只是由假设直接推出？福利含义是否超过了估计结果本身？
+
+pAI-Econ-claude 试图为这些问题提供一个结构化工作流。它通过典范模型匹配、理论谱系检查、模型原语生成、假设审计、候选命题、证明草图和反例检查，帮助研究者把一个 empirical puzzle 转化为可讨论、可审查、可进一步合作发展的理论框架。
+
+换句话说，它不是“AI 理论经济学家”，而是一个面向实证研究者的理论建模脚手架：
+
+> 帮助你知道自己的经验发现可以放进哪个理论传统里、还缺少哪一块机制、应该向理论合作者提出什么样的问题。
 
 ---
 
