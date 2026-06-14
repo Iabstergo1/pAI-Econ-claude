@@ -22,7 +22,7 @@
   <a href="#工作流">工作流</a>
 </p>
 
-
+> pAI stands for principal Agentic Investigator (Abdelmoneum, Beneventano, & Poggio, 2026).
 ---
 
 ## 作者与更新
@@ -50,7 +50,7 @@ Original pAI/MSc:
 - MIT + Perseus Labs
 
 Reference:
-- [pAI/MSc thesis record](https://dspace.mit.edu/handle/1721.1/165377)
+- [pAI/MSc: ML Theory Research with Humans on the Loop](https://arxiv.org/abs/2604.20622)
 - [PoggioAI_MSc GitHub Repository](https://github.com/PoggioAI/PoggioAI_MSc-claude)
 
 ---
