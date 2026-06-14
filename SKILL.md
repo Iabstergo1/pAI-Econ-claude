@@ -101,8 +101,9 @@ Exploration/
     │   ├── proof_sketches.md                    # Stage 7
     │   ├── counterexamples_and_edge_cases.md    # Stage 8
     │   ├── economic_interpretation.md           # Stage 9
-    │   ├── manuscript_skeleton.md               # Stage 10
-    │   └── manuscript_skeleton.pdf              # Stage 10 — academic PDF
+    │   ├── manuscript_skeleton.md               # Stage 10 — research scaffold
+    │   ├── manuscript.tex                       # Stage 10 — LaTeX source
+    │   └── manuscript.pdf                       # Stage 10 — academic PDF (pdflatex)
     ├── gates/
     │   ├── gate-01-novelty-risk.md              # After Stage 2
     │   ├── gate-02b-canonical-fit.md            # After Stage 3b
@@ -341,6 +342,19 @@ For each stage:
 - Inputs: `outputs/research_puzzle.md`
 - Gate: **Gate 1** | HiL: **HiL-2**
 
+**⚠️ MANDATORY: Web-verify every citation before writing it to `literature_positioning.md`.**
+For each paper identified in Stage 2, use WebSearch or WebFetch to confirm:
+1. Author(s) and year are correct
+2. Title is the actual published title (not a plausible-sounding variant)
+3. Journal name, volume, issue, and page numbers are correct
+4. The paper actually exists (search `"author year title site:scholar.google.com"` or similar)
+
+Mark each citation as one of:
+- **VERIFIED** — confirmed via web search (include the URL or source)
+- **UNVERIFIED** — could not confirm; flag explicitly and DO NOT include in any manuscript bibliography
+
+LLMs hallucinate plausible-sounding but nonexistent papers, especially for applied/empirical China literature. A citation that looks real is not the same as a citation that is real. Never include a citation in any output without web verification.
+
 ### Stage 3 — Theory Persona Council
 - Prompt: `prompts/03-persona-council.md`
 - Output: `outputs/persona_council.md`
@@ -440,30 +454,88 @@ If invoked with `--resume <workspace_path>`:
 When Stage 10 completes:
 1. Set `"finished": true` in `state.json`
 
-2. **Generate the manuscript PDF** from `outputs/manuscript_skeleton.md`:
+2. **⚠️ REFERENCE VERIFICATION GATE — mandatory before writing any bibliography.**
 
-   a. Determine the absolute path to the `templates/` directory — it lives in the same directory as this SKILL.md file. Call it `<SKILL_DIR>/templates/`.
+   This step must be completed before writing `manuscript.tex`. It cannot be skipped.
 
-   b. Extract the recommended title from `outputs/manuscript_skeleton.md` (look for the "Recommended title:" line under "## Title Candidates"). Use it as the PDF title. If none is found, use "Manuscript Skeleton".
+   a. Collect every citation you intend to include in the manuscript bibliography.
 
-   c. Run the following pandoc command (substitute `<WORKSPACE>` and `<SKILL_DIR>` with absolute paths, and `<TITLE>` / `<DATE>` with the extracted values):
+   b. For each citation, use WebSearch to verify it exists. Specifically confirm:
+      - The exact title (not a plausible paraphrase)
+      - Author names and year
+      - Journal/publisher, volume, issue, page numbers
 
+   c. Classify each citation:
+      - **VERIFIED** — web search returned a matching result (record the source URL in `outputs/references_verified.md`)
+      - **HALLUCINATED / UNCERTAIN** — web search found no matching result, or found a different paper with similar details
+
+   d. **Only include VERIFIED citations in the manuscript bibliography.** Remove all UNCERTAIN or unverifiable ones, even if they look plausible. A citation that cannot be confirmed by web search does not belong in the paper.
+
+   e. Write `outputs/references_verified.md` listing every proposed citation, its verification status, and the confirmation source or reason for exclusion.
+
+   **Why this matters:** LLMs generate convincing-looking but nonexistent citations, especially for applied China literature and niche empirical papers. Author names, journal names, and years are often correct while the title, volume, or page numbers are fabricated. The only safe check is an external web search — internal confidence is not sufficient evidence.
+
+3. **Generate the manuscript PDF** by writing a complete LaTeX file and compiling with pdflatex:
+
+   a. **Title**: Use the format `"<brief description of the research problem>: A Theoretical Framework"`. The description should be one short phrase (≤ 8 words) that names the core question, not the key finding. Example: "Education Investment under China's Hukou System: A Theoretical Framework". Do NOT use a long descriptive title that will exceed 2 lines.
+
+   b. **Write `outputs/manuscript.tex`** as a complete academic paper (not a skeleton). Follow the style of the reference PDF (`260311_genetic_diversity_skill_formation_model_v3.pdf`) exactly:
+
+   ```latex
+   \documentclass[12pt]{article}
+   \usepackage[margin=1.2in]{geometry}
+   \usepackage{amsmath,amsthm,amssymb}
+   \usepackage{microtype}
+   \usepackage[authoryear,round]{natbib}
+   \usepackage{xcolor}
+   \definecolor{linkgreen}{RGB}{0,120,100}
+   \usepackage[colorlinks=true,linkcolor=linkgreen,citecolor=linkgreen,urlcolor=linkgreen]{hyperref}
+
+   % Use \Large (not default \LARGE) so title fits in 2 lines
+   \makeatletter
+   \renewcommand{\maketitle}{%
+     \begin{center}%
+       {\Large\bfseries \@title \par}%
+       \vskip 1.5em%
+       {\normalsize \@author \par}%
+       \vskip 0.8em%
+       {\normalsize \@date}%
+     \end{center}%
+     \vskip 2em%
+   }
+   \makeatother
+
+   \theoremstyle{plain}
+   \newtheorem{proposition}{Proposition}
+   \newtheorem{lemma}{Lemma}
+   \newtheorem{corollary}{Corollary}
+   \theoremstyle{definition}
+   \newtheorem{assumption}{Assumption}
+   \newtheorem{definition}{Definition}
+   \theoremstyle{remark}
+   \newtheorem{remark}{Remark}
+
+   \title{<Brief problem description>: A Theoretical Framework}
+   \author{%
+     \texttt{pAI-Econ-claude} (\texttt{theoretical-economics-claude-skill})\\[4pt]
+     \small\url{https://github.com/maxwell2732/pAI-Econ-claude}\\[2pt]
+     \small Claude Sonnet 4.6%
+   }
+   \date{Draft: <Month DD, YYYY>}
    ```
-   pandoc <WORKSPACE>/outputs/manuscript_skeleton.md \
-     -o <WORKSPACE>/outputs/manuscript_skeleton.pdf \
-     --template=<SKILL_DIR>/templates/academic-econ.latex \
-     --pdf-engine=xelatex \
-     -M title="<TITLE>" \
-     -M date="<DATE>" \
-     -M author="Chen Zhu; Xiaolu Wang; Weilong Zhang" \
-     -M working-paper-note="Working Paper — Theoretical Economics Research Pipeline" \
-     --toc \
-     -V colorlinks=true
+
+   The paper body should contain real academic prose: Introduction, Model (with subsections), Results (Propositions/Lemmas with proofs or proof sketches), Comparative Statics, Welfare, Boundary Cases, Testable Predictions, and a `thebibliography` section. Do NOT write a skeleton outline or include meta-commentary. See `feedback-pdf-style.md` in project memory for the complete style rules.
+
+   c. **Compile** with pdflatex (twice for cross-references):
    ```
+   pdflatex -interaction=nonstopmode <WORKSPACE>/outputs/manuscript.tex
+   pdflatex -interaction=nonstopmode <WORKSPACE>/outputs/manuscript.tex
+   ```
+   Check the `.log` file for lines beginning with `!` (fatal errors). Warnings about rerunning are expected on the first pass and safe to ignore.
 
-   d. If pandoc succeeds, confirm that `outputs/manuscript_skeleton.pdf` exists and record `"pdf_generation": "success"` in `state.json`.
+   d. If compilation succeeds, confirm `outputs/manuscript.pdf` exists and record `"pdf_generation": "success"` in `state.json`.
 
-   e. If pandoc fails (non-zero exit code), record `"pdf_generation": "failed"` in `state.json`, print the error message, and include the manual fallback command in the completion summary so the researcher can run it themselves.
+   e. If pdflatex fails, record `"pdf_generation": "failed"` in `state.json`, print the error lines from the `.log` file, and note what the researcher must fix manually.
 
 3. Print completion summary:
 
@@ -494,14 +566,15 @@ When Stage 10 completes:
     outputs/counterexamples_and_edge_cases.md
     outputs/economic_interpretation.md
     outputs/manuscript_skeleton.md
-    outputs/manuscript_skeleton.pdf          ← Academic PDF (XeLaTeX)
+    outputs/manuscript.tex                   ← LaTeX source (pdflatex)
+    outputs/manuscript.pdf                   ← Academic PDF (Computer Modern)
 
   Suggested next steps:
-    - Open manuscript_skeleton.pdf to review the formatted skeleton
+    - Open manuscript.pdf to review the theoretical framework paper
     - Formalize proof sketches into complete proofs
-    - Expand comparative statics
+    - Expand comparative statics with numerical calibration
     - Run literature search using literature_positioning.md keywords
-    - Begin full LaTeX draft from manuscript_skeleton.md as scaffold
+    - Extend manuscript.tex with empirical motivation or extensions
 ================================================================
 ```
 
