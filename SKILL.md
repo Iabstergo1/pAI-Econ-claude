@@ -63,7 +63,15 @@ When the skill is first invoked:
 
 1. **Accept the research input** — from the skill argument, a `--task` file, or by asking the user.
 
-2. **Create the workspace** — create a directory named `econ-research-<YYYYMMDD-HHMMSS>/` in the current working directory (or `~/Desktop/` if no write permission here). All outputs go inside this workspace.
+2. **Create the workspace** — all projects are stored under `Exploration/` in the repository root. Follow these steps:
+
+   a. **Determine the next project number**: scan `Exploration/` for existing subdirectories matching `Project_NNN_*`. Take the highest NNN found and add 1. If none exist, start at 001. Zero-pad to 3 digits.
+
+   b. **Derive the model abbreviation**: from the research input, identify the core economic model or mechanism (e.g., `BNE`, `PrincipalAgent`, `MatchingSearch`, `SignalGame`, `RoyModel`). Keep it concise (≤20 chars, no spaces — use CamelCase or hyphens). You will refine this abbreviation after Stage 0 if the intake reveals a more precise model family.
+
+   c. **Create the directory**: `Exploration/Project_NNN_<ModelAbbrev>/` relative to the repo root (e.g., `Exploration/Project_003_RationalInattention/`). If the repo root is not writable, fall back to `~/Desktop/Exploration/Project_NNN_<ModelAbbrev>/`.
+
+   d. All outputs go inside this workspace directory. Record the full path in `state.json`.
 
 3. **Initialize state.json** — copy from `templates/state.json` and fill in `campaign_id`, `workspace`, `hypothesis`, and `started_at`.
 
@@ -76,33 +84,35 @@ When the skill is first invoked:
 ## Workspace Layout
 
 ```
-econ-research-YYYYMMDD-HHMMSS/
-├── state.json
-├── initial_context/
-│   └── hypothesis.md                        # Raw user input (verbatim, never modified)
-├── outputs/
-│   ├── research_intake.md                   # Stage 0
-│   ├── research_puzzle.md                   # Stage 1
-│   ├── literature_positioning.md            # Stage 2
-│   ├── persona_council.md                   # Stage 3
-│   ├── canonical_model_match.md             # Stage 3b (NEW)
-│   ├── model_primitives.md                  # Stage 4
-│   ├── assumption_audit.md                  # Stage 5
-│   ├── candidate_propositions.md            # Stage 6
-│   ├── proof_sketches.md                    # Stage 7
-│   ├── counterexamples_and_edge_cases.md    # Stage 8
-│   ├── economic_interpretation.md           # Stage 9
-│   └── manuscript_skeleton.md               # Stage 10
-├── gates/
-│   ├── gate-01-novelty-risk.md              # After Stage 2
-│   ├── gate-02b-canonical-fit.md            # After Stage 3b (NEW)
-│   ├── gate-02c-theory-lineage.md           # After Stage 3b (NEW)
-│   ├── gate-02-model-coherence.md           # After Stage 4
-│   ├── gate-03-non-triviality.md            # After Stage 6
-│   ├── gate-04-proof-integrity.md           # After Stage 7
-│   └── gate-05-economic-meaning.md          # After Stage 9
-└── logs/
-    └── stage-log.md                         # Running progress log
+Exploration/
+└── Project_NNN_<ModelAbbrev>/          ← e.g. Project_003_RationalInattention
+    ├── state.json
+    ├── initial_context/
+    │   └── hypothesis.md                        # Raw user input (verbatim, never modified)
+    ├── outputs/
+    │   ├── research_intake.md                   # Stage 0
+    │   ├── research_puzzle.md                   # Stage 1
+    │   ├── literature_positioning.md            # Stage 2
+    │   ├── persona_council.md                   # Stage 3
+    │   ├── canonical_model_match.md             # Stage 3b
+    │   ├── model_primitives.md                  # Stage 4
+    │   ├── assumption_audit.md                  # Stage 5
+    │   ├── candidate_propositions.md            # Stage 6
+    │   ├── proof_sketches.md                    # Stage 7
+    │   ├── counterexamples_and_edge_cases.md    # Stage 8
+    │   ├── economic_interpretation.md           # Stage 9
+    │   ├── manuscript_skeleton.md               # Stage 10
+    │   └── manuscript_skeleton.pdf              # Stage 10 — academic PDF
+    ├── gates/
+    │   ├── gate-01-novelty-risk.md              # After Stage 2
+    │   ├── gate-02b-canonical-fit.md            # After Stage 3b
+    │   ├── gate-02c-theory-lineage.md           # After Stage 3b
+    │   ├── gate-02-model-coherence.md           # After Stage 4
+    │   ├── gate-03-non-triviality.md            # After Stage 6
+    │   ├── gate-04-proof-integrity.md           # After Stage 7
+    │   └── gate-05-economic-meaning.md          # After Stage 9
+    └── logs/
+        └── stage-log.md                         # Running progress log
 ```
 
 ---
@@ -461,7 +471,7 @@ When Stage 10 completes:
 ================================================================
   [COMPLETE] Theoretical Economics Pipeline Finished
 ================================================================
-  Workspace: <path>
+  Workspace: Exploration/Project_NNN_<ModelAbbrev>/
   Stages completed: 11 (0–10)
   Gate results:
     Gate 1  (Novelty Risk):       [PASS / FAIL+caveat]
@@ -504,7 +514,8 @@ When Stage 10 completes:
 - Never modify `initial_context/hypothesis.md` after it is written
 - When in doubt about a stage output's quality, note concerns in the output file rather than silently lowering quality
 - All output files are in Markdown; the manuscript skeleton may contain LaTeX fragments
-- The `prompts/` directory path is relative to the directory containing this SKILL.md file
+- The `prompts/` and `templates/` directory paths are relative to the directory containing this SKILL.md file
+- All project workspaces live under `Exploration/` in the repo root, named `Project_NNN_<ModelAbbrev>/`. Never write project files to the repo root directly.
 
 ---
 
