@@ -29,7 +29,7 @@
 
 **作者：** 
 
-Chen Zhu / 朱晨（China Agricultural University） 
+Chen Zhu / 朱晨（China Agricultural University | 遗传社科研究） 
 
 Xiaolu Wang / 王晓璐（China Agricultural University） 
 
