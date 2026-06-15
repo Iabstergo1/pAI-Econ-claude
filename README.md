@@ -35,7 +35,7 @@ Xiaolu Wang / 王晓璐（China Agricultural University）
 
 Weilong Zhang / 章维龙（University of Cambridge）  
 
-**最后更新：** 2026 年 6 月 14 日 ( 测试中 )
+**最后更新：** 2026 年 6 月 15 日 ( 测试版 )
 
 ---
 
@@ -52,6 +52,9 @@ Original pAI/MSc:
 Reference:
 - [pAI/MSc: ML Theory Research with Humans on the Loop](https://arxiv.org/abs/2604.20622)
 - [PoggioAI_MSc GitHub Repository](https://github.com/PoggioAI/PoggioAI_MSc-claude)
+
+
+**反馈与优化:  Gin**
 
 ---
 
